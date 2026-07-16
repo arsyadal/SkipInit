@@ -1,0 +1,7 @@
+defmodule AppWeb.HomeController do
+  use AppWeb, :controller
+
+  def index(conn, _params) do
+    json(conn, %{message: "Hello from Phoenix. SkipInit template.", project: "{{projectName}}"})
+  end
+end

@@ -1,0 +1,9 @@
+server.port=8080
+spring.application.name={{projectName}}
+{{#hasPostgres}}
+spring.datasource.url=jdbc:postgresql://localhost:5432/{{projectNameSlug}}
+spring.datasource.username=postgres
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+{{/hasPostgres}}

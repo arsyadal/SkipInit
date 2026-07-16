@@ -1,0 +1,9 @@
+import { Hono } from "npm:hono";
+
+const app = new Hono();
+
+app.get("/", (c) =>
+  c.json({ message: "Hello from Deno. SkipInit template.", project: "{{projectName}}" })
+);
+
+Deno.serve({ port: 3000 }, app.fetch);

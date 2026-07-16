@@ -1,0 +1,16 @@
+default: &default
+  adapter: {{#hasPostgres}}postgresql{{/hasPostgres}}{{^hasPostgres}}sqlite3{{/hasPostgres}}
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+{{#hasPostgres}}
+  host: localhost
+  database: {{projectNameSlug}}_development
+  username: postgres
+  password: <%= ENV["DB_PASSWORD"] %>
+{{/hasPostgres}}
+{{^hasPostgres}}
+  database: db/development.sqlite3
+{{/hasPostgres}}

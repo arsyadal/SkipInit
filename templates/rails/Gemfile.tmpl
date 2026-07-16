@@ -1,0 +1,12 @@
+source 'https://rubygems.org'
+ruby '>= 3.2'
+
+gem 'rails', '~> 7.2'
+gem 'puma', '>= 5.0'
+{{#hasPostgres}}
+gem 'pg', '>= 1.1'
+{{/hasPostgres}}
+{{^hasPostgres}}
+gem 'sqlite3', '>= 1.4'
+{{/hasPostgres}}
+gem 'bootsnap', require: false

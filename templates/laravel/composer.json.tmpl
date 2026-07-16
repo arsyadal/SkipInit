@@ -1,0 +1,20 @@
+{
+    "name": "{{projectNameSlug}}/{{projectNameSlug}}",
+    "type": "project",
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "laravel/pint": "^1.0"
+    },
+    "autoload": {
+        "psr-4": { "App\\": "app/" }
+    },
+    "scripts": {
+        "post-autoload-dump": ["@php artisan package:discover --ansi"]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
