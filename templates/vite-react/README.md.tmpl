@@ -5,8 +5,9 @@ Generated with SkipInit.
 ## Stack
 
 - Framework: {{frameworkLabel}}
-- Database: {{databaseLabel}}{{#hasAuth}}
-- Auth: Lucia{{/hasAuth}}
+- Database: {{databaseLabel}}{{#hasLucia}}
+- Auth: Lucia{{/hasLucia}}{{#hasJwt}}
+- Auth: JWT{{/hasJwt}}
 
 ## Getting Started
 

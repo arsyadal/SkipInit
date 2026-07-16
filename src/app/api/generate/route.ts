@@ -5,13 +5,13 @@ import Mustache from "mustache";
 import { ZipArchive } from "archiver";
 
 const TEMPLATES_ROOT = path.join(process.cwd(), "templates");
-const TS_FRAMEWORKS = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono", "express", "nestjs", "deno", "nuxt", "vue", "angular"];
+const TS_FRAMEWORKS = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono", "express", "nestjs", "deno", "nuxt"];
 
 interface GenerateRequest {
   projectName: string;
   framework: string;
   database: "none" | "postgres" | "sqlite" | "mongodb" | "mysql" | "redis" | "mssql";
-  auth: "none" | "lucia" | "jwt";
+  auth: "none" | "lucia" | "jwt" | "nextauth";
 }
 
 const FRAMEWORK_TEMPLATES: Record<string, { dir: string; label: string }> = {
@@ -98,6 +98,7 @@ export async function POST(request: NextRequest) {
   const hasMssql = body.database === "mssql";
   const hasLucia = body.auth === "lucia";
   const hasJwt = body.auth === "jwt";
+  const hasNextauth = body.auth === "nextauth";
 
   if (hasLucia && !hasPostgres && !hasSqlite) {
     return NextResponse.json(
@@ -119,6 +120,7 @@ export async function POST(request: NextRequest) {
     databaseLabel: body.database === "postgres" ? "PostgreSQL" : body.database === "sqlite" ? "SQLite" : body.database === "mongodb" ? "MongoDB" : body.database === "mysql" ? "MySQL" : body.database === "redis" ? "Redis" : body.database === "mssql" ? "MS SQL" : "None",
     hasLucia,
     hasJwt,
+    hasNextauth,
   };
 
   const baseFiles = await collectFiles(path.join(TEMPLATES_ROOT, template.dir));

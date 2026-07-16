@@ -1,5 +1,5 @@
 default: &default
-  adapter: {{#hasPostgres}}postgresql{{/hasPostgres}}{{^hasPostgres}}sqlite3{{/hasPostgres}}
+  adapter: {{#hasPostgres}}postgresql{{/hasPostgres}}{{#hasMysql}}mysql2{{/hasMysql}}{{^hasPostgres}}{{^hasMysql}}sqlite3{{/hasMysql}}{{/hasPostgres}}
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
@@ -11,6 +11,12 @@ development:
   username: postgres
   password: <%= ENV["DB_PASSWORD"] %>
 {{/hasPostgres}}
-{{^hasPostgres}}
+{{#hasMysql}}
+  host: localhost
+  database: {{projectNameSlug}}_development
+  username: root
+  password: <%= ENV["DB_PASSWORD"] %>
+{{/hasMysql}}
+{{^hasPostgres}}{{^hasMysql}}
   database: db/development.sqlite3
-{{/hasPostgres}}
+{{/hasMysql}}{{/hasPostgres}}

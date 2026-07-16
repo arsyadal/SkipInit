@@ -1,0 +1,18 @@
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [
+    Credentials({
+      credentials: { email: {}, password: {} },
+      async authorize(credentials) {
+        // Replace with real user lookup against your database.
+        if (credentials?.email && credentials?.password) {
+          return { id: "1", email: credentials.email as string };
+        }
+        return null;
+      },
+    }),
+  ],
+  pages: { signIn: "/login" },
+});

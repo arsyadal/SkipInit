@@ -9,6 +9,26 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
   },
+  "dependencies": {
+{{#hasPostgres}}
+    "pg": "^8.11.5"{{#hasJwt}},{{/hasJwt}}{{#hasNextauth}},{{/hasNextauth}}
+{{/hasPostgres}}
+{{#hasMysql}}
+    "mysql2": "^3.11.0"{{#hasJwt}},{{/hasJwt}}
+{{/hasMysql}}
+{{#hasRedis}}
+    "redis": "^4.7.0"{{#hasJwt}},{{/hasJwt}}
+{{/hasRedis}}
+{{#hasMssql}}
+    "mssql": "^11.0.1"{{#hasJwt}},{{/hasJwt}}
+{{/hasMssql}}
+{{#hasMongodb}}
+    "mongodb": "^6.9.0"{{#hasJwt}},{{/hasJwt}}
+{{/hasMongodb}}
+{{#hasJwt}}
+    "jsonwebtoken": "^9.0.2"
+{{/hasJwt}}
+  },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^4.0.0",
     "@sveltejs/kit": "^2.16.0",
@@ -16,6 +36,7 @@
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
     "typescript": "^5.0.0",
-    "vite": "^6.0.0"
+    "vite": "^6.0.0"{{#hasJwt}},
+    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}
   }
 }

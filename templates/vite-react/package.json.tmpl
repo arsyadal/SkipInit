@@ -18,9 +18,10 @@
     "mysql2": "^3.11.0"{{/hasMysql}}{{#hasRedis}},
     "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}},
     "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}},
-    "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasAuth}},
+    "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasLucia}},
     "lucia": "^3.2.0",
-    "@lucia-auth/adapter-postgresql": "^3.1.2"{{/hasAuth}}
+    "@lucia-auth/adapter-postgresql": "^3.1.2"{{/hasLucia}}{{#hasJwt}},
+    "jsonwebtoken": "^9.0.2"{{/hasJwt}}
   },
   "devDependencies": {
     "@types/node": "^24.13.2",

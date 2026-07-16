@@ -4,5 +4,5 @@
   "private": true,
   "type": "module",
   "scripts": { "dev": "nuxt dev", "build": "nuxt build", "preview": "nuxt preview" },
-  "dependencies": { "nuxt": "^3.12.0", "vue": "^3.4.0" }
+  "dependencies": { "nuxt": "^3.12.0", "vue": "^3.4.0"{{#hasPostgres}}, "pg": "^8.11.5"{{/hasPostgres}}{{#hasMysql}}, "mysql2": "^3.11.0"{{/hasMysql}}{{#hasRedis}}, "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}}, "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}}, "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasJwt}}, "jsonwebtoken": "^9.0.2"{{/hasJwt}} }
 }

@@ -16,16 +16,19 @@
     "mysql2": "^3.11.0"{{/hasMysql}}{{#hasRedis}},
     "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}},
     "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}},
-    "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasAuth}},
+    "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasLucia}},
     "lucia": "^3.2.0",
     "@lucia-auth/adapter-postgresql": "^3.1.2",
-    "oslo": "^1.2.0"{{/hasAuth}}
+    "oslo": "^1.2.0"{{/hasLucia}}{{#hasJwt}},
+    "jsonwebtoken": "^9.0.2"{{/hasJwt}}{{#hasNextauth}},
+    "next-auth": "^5.0.0-beta.25"{{/hasNextauth}}
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "typescript": "^5"{{#hasPostgres}},
-    "@types/pg": "^8.11.6"{{/hasPostgres}}
+    "@types/pg": "^8.11.6"{{/hasPostgres}}{{#hasJwt}},
+    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}
   }
 }

@@ -5,8 +5,10 @@ Generated with [Skipinit](https://skipinit.dev).
 ## Stack
 
 - Framework: {{frameworkLabel}}
-- Database: {{databaseLabel}}{{#hasAuth}}
-- Auth: Lucia{{/hasAuth}}
+- Database: {{databaseLabel}}{{#hasLucia}}
+- Auth: Lucia{{/hasLucia}}{{#hasJwt}}
+- Auth: JWT{{/hasJwt}}{{#hasNextauth}}
+- Auth: NextAuth{{/hasNextauth}}
 
 ## Getting Started
 

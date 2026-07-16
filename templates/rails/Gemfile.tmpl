@@ -6,7 +6,10 @@ gem 'puma', '>= 5.0'
 {{#hasPostgres}}
 gem 'pg', '>= 1.1'
 {{/hasPostgres}}
-{{^hasPostgres}}
+{{#hasMysql}}
+gem 'mysql2', '>= 0.5'
+{{/hasMysql}}
+{{^hasPostgres}}{{^hasMysql}}
 gem 'sqlite3', '>= 1.4'
-{{/hasPostgres}}
+{{/hasMysql}}{{/hasPostgres}}
 gem 'bootsnap', require: false

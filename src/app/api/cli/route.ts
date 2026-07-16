@@ -40,7 +40,7 @@ if [ -f "package.json" ]; then
 fi
 
 echo "✓ Done! Project is ready in './$PROJECT_NAME'"
-echo "  To start: cd $PROJECT_NAME && npm run dev"
+echo "  See $PROJECT_NAME/README.md for setup and run instructions"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 `;
 
