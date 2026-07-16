@@ -10,7 +10,7 @@ type Framework =
   | "fastapi" | "django" | "flask"
   | "go" | "rust"
   | "laravel" | "symfony"
-  | "springboot" | "dotnet"
+  | "springboot" | "dotnet" | "blazor"
   | "rails"
   | "phoenix";
 
@@ -38,6 +38,7 @@ const FRAMEWORKS: FrameworkDef[] = [
   { id: "symfony",    label: "Symfony",       lang: "php",     logo: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="M8 10.5C8.5 8 11 7 13 8.5s1.5 3.5 0 4.5-4 1-4.5 4c-.5 2.5 2 4 4 3.5"/><circle cx="17" cy="8" r="1" fill="currentColor"/></svg>` },
   { id: "springboot", label: "Spring Boot",   lang: "java",    logo: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#6DB33F" xmlns="http://www.w3.org/2000/svg"><path d="M20.59 5.41A9.94 9.94 0 0 0 14 2.06V0h-4v2.06A10 10 0 1 0 20.59 5.41zM12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm1-13h-2v6l5.25 3.15.75-1.23-4-2.37V7z"/></svg>` },
   { id: "dotnet",     label: ".NET Core",     lang: "csharp",  logo: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#512BD4" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>` },
+  { id: "blazor",     label: "Blazor",        lang: "csharp",  logo: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#512BD4" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="4" fill="#512BD4"/><text x="4" y="15" fill="white" font-size="8" font-family="sans-serif" font-weight="bold">Blazor</text></svg>` },
   { id: "rails",      label: "Ruby on Rails", lang: "ruby",    logo: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#CC0000" xmlns="http://www.w3.org/2000/svg"><path d="M22.245 4.015c.313.245.512.643.512 1.076v4.815c0 .332-.132.65-.37.885L9.743 23.074a1.25 1.25 0 0 1-1.767 0L.312 15.428a1.25 1.25 0 0 1 0-1.768L12.954 1.019A1.25 1.25 0 0 1 13.84.64h4.755c.44 0 .836.205 1.079.518l2.571 2.857z"/></svg>` },
   { id: "phoenix",    label: "Phoenix",       lang: "elixir",  logo: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#FD4F00" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm3.5 14.5c-1 .7-2.2 1-3.5 1-3.3 0-6-2.7-6-6 0-2 1-3.8 2.5-4.9C7.5 8.5 7 10.7 8 12.5c.7 1.2 1.8 2 3 2.3-1-1.5-.8-3.5.5-4.8 1-1 2.3-1.4 3.5-1.1-.7.8-1 2-.7 3.1.5 1.5 1.8 2.5 3.2 2.5z"/></svg>` },
 ];

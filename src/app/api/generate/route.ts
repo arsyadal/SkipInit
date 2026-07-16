@@ -35,6 +35,7 @@ const FRAMEWORK_TEMPLATES: Record<string, { dir: string; label: string }> = {
   symfony:    { dir: "symfony",      label: "Symfony" },
   springboot: { dir: "springboot",   label: "Spring Boot" },
   dotnet:     { dir: "dotnet",       label: ".NET Core" },
+  blazor:     { dir: "blazor",       label: "Blazor" },
   rails:      { dir: "rails",        label: "Ruby on Rails" },
   deno:       { dir: "deno",         label: "Deno" },
   phoenix:    { dir: "phoenix",      label: "Phoenix" },

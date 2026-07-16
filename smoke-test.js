@@ -7,9 +7,7 @@ const TEST_DIR = path.join(__dirname, "tmp-smoke-test");
 const PORT = 3000;
 const BASE_URL = `http://localhost:${PORT}`;
 
-// Complete test matrix covering every single framework we support
 const TEST_CASES = [
-  // JS / TS
   { framework: "nextjs", database: "postgres", auth: "lucia" },
   { framework: "vite", database: "mysql", auth: "jwt" },
   { framework: "astro", database: "sqlite", auth: "none" },
@@ -22,29 +20,22 @@ const TEST_CASES = [
   { framework: "angular", database: "none", auth: "none" },
   { framework: "vue", database: "none", auth: "none" },
   { framework: "deno", database: "postgres", auth: "jwt" },
-  // Python
   { framework: "fastapi", database: "sqlite", auth: "none" },
   { framework: "django", database: "postgres", auth: "none" },
   { framework: "flask", database: "mongodb", auth: "none" },
-  // Go
   { framework: "go", database: "mongodb", auth: "none" },
-  // Rust
   { framework: "rust", database: "mysql", auth: "none" },
-  // PHP
   { framework: "laravel", database: "sqlite", auth: "none" },
   { framework: "symfony", database: "postgres", auth: "none" },
-  // Java
   { framework: "springboot", database: "postgres", auth: "none" },
-  // C#
   { framework: "dotnet", database: "postgres", auth: "none" },
-  // Ruby
+  { framework: "blazor", database: "postgres", auth: "none" },
   { framework: "rails", database: "postgres", auth: "none" },
-  // Elixir
   { framework: "phoenix", database: "postgres", auth: "none" }
 ];
 
 async function runTest() {
-  console.log("🚀 Starting SkipInit Smoke Tests for all 24 frameworks...");
+  console.log("Starting SkipInit Smoke Tests for all 25 frameworks...");
   
   if (fs.existsSync(TEST_DIR)) {
     fs.rmSync(TEST_DIR, { recursive: true, force: true });
@@ -58,7 +49,7 @@ async function runTest() {
     const zipPath = path.join(TEST_DIR, `${projName}.zip`);
     const extractPath = path.join(TEST_DIR, projName);
 
-    console.log(`📦 Testing framework: [${tc.framework}]`);
+    console.log(`Testing framework: [${tc.framework}]`);
 
     try {
       const response = await fetch(`${BASE_URL}/api/generate`, {
@@ -79,7 +70,6 @@ async function runTest() {
       const arrayBuffer = await response.arrayBuffer();
       fs.writeFileSync(zipPath, Buffer.from(arrayBuffer));
 
-      // Extract
       execSync(`unzip -q -o ${zipPath} -d ${TEST_DIR}`);
       
       if (!fs.existsSync(extractPath)) {
@@ -91,29 +81,28 @@ async function runTest() {
         throw new Error(`Folder is empty`);
       }
 
-      // Quick sanity check of config file presence depending on language/framework
       if (tc.framework === "django" && !fs.existsSync(path.join(extractPath, "manage.py"))) throw new Error("Missing manage.py");
       if (tc.framework === "laravel" && !fs.existsSync(path.join(extractPath, "composer.json"))) throw new Error("Missing composer.json");
       if (tc.framework === "rust" && !fs.existsSync(path.join(extractPath, "Cargo.toml"))) throw new Error("Missing Cargo.toml");
       if (tc.framework === "go" && !fs.existsSync(path.join(extractPath, "go.mod"))) throw new Error("Missing go.mod");
       if (tc.framework === "springboot" && !fs.existsSync(path.join(extractPath, "pom.xml"))) throw new Error("Missing pom.xml");
+      if (tc.framework === "blazor" && !fs.existsSync(path.join(extractPath, "App.razor"))) throw new Error("Missing App.razor");
 
       fs.rmSync(zipPath, { force: true });
       fs.rmSync(extractPath, { recursive: true, force: true });
     } catch (err) {
-      console.error(`❌ Failed: [${tc.framework}] - ${err.message}`);
+      console.error(`Failed: [${tc.framework}] - ${err.message}`);
       passed = false;
     }
   }
 
-  // Cleanup
   fs.rmSync(TEST_DIR, { recursive: true, force: true });
 
   if (passed) {
-    console.log("\n🎉 All 24 frameworks generated successfully!");
+    console.log("\nAll 25 frameworks generated successfully!");
     process.exit(0);
   } else {
-    console.error("\n🚨 Some framework tests failed.");
+    console.error("\nSome framework tests failed.");
     process.exit(1);
   }
 }
