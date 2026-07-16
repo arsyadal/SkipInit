@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 type Database = "none" | "postgres" | "mysql" | "sqlite" | "mongodb" | "redis" | "mssql";
 type Auth = "none" | "lucia" | "jwt" | "nextauth";
@@ -243,6 +243,18 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2">
               {(["none", "postgres", "mysql", "sqlite", "mongodb", "redis", "mssql"] as Database[]).map((option) => {
                 const isSelected = database === option;
+                const dbIcons: Record<Database, React.ReactNode> = {
+                  none: <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg>,
+                  postgres: <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>,
+                  mysql:    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/><path d="M15 19.5 17 22l3-5"/></svg>,
+                  sqlite:   <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></svg>,
+                  mongodb:  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C9.5 7 5 12 5 15.5a7 7 0 0 0 14 0C19 12 14.5 7 12 2Z"/><path d="M12 22V12"/></svg>,
+                  redis:    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 7 9 5 9-5M3 7v10l9 5 9-5V7M12 2 3 7m9-5 9 5"/></svg>,
+                  mssql:    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/><path d="M19 5v6"/><path d="m17 9 2 2 2-2"/></svg>,
+                };
+                const dbLabels: Record<Database, string> = {
+                  none: "None", postgres: "PostgreSQL", mysql: "MySQL", sqlite: "SQLite", mongodb: "MongoDB", redis: "Redis", mssql: "MS SQL",
+                };
                 return (
                   <button
                     key={option}
@@ -252,7 +264,8 @@ export default function Home() {
                       isSelected ? "border-neutral-200 bg-neutral-100 text-neutral-950 font-medium" : "border-neutral-800 bg-neutral-950 text-neutral-300 hover:border-neutral-700"
                     }`}
                   >
-                    {option === "none" ? "None" : option === "postgres" ? "PostgreSQL" : option === "mysql" ? "MySQL" : option === "mssql" ? "MS SQL" : option.charAt(0).toUpperCase() + option.slice(1)}
+                    {dbIcons[option]}
+                    {dbLabels[option]}
                   </button>
                 );
               })}
@@ -265,6 +278,15 @@ export default function Home() {
             <div className="grid grid-cols-4 gap-2">
               {(["none", "lucia", "jwt", "nextauth"] as Auth[]).map((option) => {
                 const isSelected = auth === option;
+                const authIcons: Record<Auth, React.ReactNode> = {
+                  none:     <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg>,
+                  lucia:    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>,
+                  jwt:      <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+                  nextauth: <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>,
+                };
+                const authLabels: Record<Auth, string> = {
+                  none: "None", lucia: "Lucia", jwt: "JWT", nextauth: "NextAuth",
+                };
                 return (
                   <button
                     key={option}
@@ -274,7 +296,8 @@ export default function Home() {
                       isSelected ? "border-neutral-200 bg-neutral-100 text-neutral-950 font-medium" : "border-neutral-800 bg-neutral-950 text-neutral-300 hover:border-neutral-700"
                     }`}
                   >
-                    {option === "none" ? "None" : option === "nextauth" ? "NextAuth" : option === "lucia" ? "Lucia" : "JWT"}
+                    {authIcons[option]}
+                    {authLabels[option]}
                   </button>
                 );
               })}
