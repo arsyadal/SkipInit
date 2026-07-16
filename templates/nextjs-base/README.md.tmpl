@@ -1,0 +1,21 @@
+# {{projectName}}
+
+Generated with [Skipinit](https://skipinit.dev).
+
+## Stack
+
+- Framework: Next.js
+- Database: {{databaseLabel}}
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+{{#hasPostgres}}
+
+## Database
+
+Set `DATABASE_URL` in `.env.local`, then use the client in `src/lib/db.ts`.
+{{/hasPostgres}}

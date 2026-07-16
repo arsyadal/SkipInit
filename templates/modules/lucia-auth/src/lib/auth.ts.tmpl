@@ -1,0 +1,34 @@
+import { Lucia } from "lucia";
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+// Simple mock adapter or node-postgres adapter for demonstration
+// ponytail: using standard lucia session management with pg database
+import { NodePostgresAdapter } from "@lucia-auth/adapter-postgresql";
+import { db } from "./db";
+
+// Adapter configuration
+const adapter = new NodePostgresAdapter(db, {
+  user: "users",
+  session: "sessions"
+});
+
+export const lucia = new Lucia(adapter, {
+  sessionCookie: {
+    attributes: {
+      secure: process.env.NODE_ENV === "production"
+    }
+  },
+  getUserAttributes: (attributes) => {
+    return {
+      username: attributes.username
+    };
+  }
+});
+
+declare module "lucia" {
+  interface Register {
+    Lucia: typeof lucia;
+    DatabaseUserAttributes: {
+      username: string;
+    };
+  }
+}

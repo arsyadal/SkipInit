@@ -1,0 +1,4 @@
+// Schema adjustments for Lucia Auth
+// SQL schema for postgres:
+// CREATE TABLE users (id TEXT PRIMARY KEY, username TEXT UNIQUE, password_hash TEXT);
+// CREATE TABLE sessions (id TEXT PRIMARY KEY, user_id TEXT REFERENCES users(id), expires_at TIMESTAMPTZ);

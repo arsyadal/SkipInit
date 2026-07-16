@@ -1,0 +1,27 @@
+{
+  "name": "{{projectNameSlug}}",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"{{#hasPostgres}},
+    "pg": "^8.11.5"{{/hasPostgres}}{{#hasAuth}},
+    "lucia": "^3.2.0",
+    "@lucia-auth/adapter-postgresql": "^3.1.2",
+    "oslo": "^1.2.0"{{/hasAuth}}
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"{{#hasPostgres}},
+    "@types/pg": "^8.11.6"{{/hasPostgres}}
+  }
+}
