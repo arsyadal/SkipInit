@@ -5,11 +5,12 @@ import Mustache from "mustache";
 import { ZipArchive } from "archiver";
 
 const TEMPLATES_ROOT = path.join(process.cwd(), "templates");
+const TS_FRAMEWORKS = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono", "express", "nestjs", "deno", "nuxt", "vue", "angular"];
 
 interface GenerateRequest {
   projectName: string;
   framework: string;
-  database: "none" | "postgres" | "sqlite" | "mongodb";
+  database: "none" | "postgres" | "sqlite" | "mongodb" | "mysql" | "redis" | "mssql";
   auth: "none" | "lucia" | "jwt";
 }
 
@@ -92,6 +93,9 @@ export async function POST(request: NextRequest) {
   const hasPostgres = body.database === "postgres";
   const hasSqlite = body.database === "sqlite";
   const hasMongodb = body.database === "mongodb";
+  const hasMysql = body.database === "mysql";
+  const hasRedis = body.database === "redis";
+  const hasMssql = body.database === "mssql";
   const hasLucia = body.auth === "lucia";
   const hasJwt = body.auth === "jwt";
 
@@ -108,8 +112,11 @@ export async function POST(request: NextRequest) {
     hasPostgres,
     hasSqlite,
     hasMongodb,
+    hasMysql,
+    hasRedis,
+    hasMssql,
     frameworkLabel: template.label,
-    databaseLabel: body.database === "postgres" ? "PostgreSQL" : body.database === "sqlite" ? "SQLite" : body.database === "mongodb" ? "MongoDB" : "None",
+    databaseLabel: body.database === "postgres" ? "PostgreSQL" : body.database === "sqlite" ? "SQLite" : body.database === "mongodb" ? "MongoDB" : body.database === "mysql" ? "MySQL" : body.database === "redis" ? "Redis" : body.database === "mssql" ? "MS SQL" : "None",
     hasLucia,
     hasJwt,
   };
@@ -123,8 +130,7 @@ export async function POST(request: NextRequest) {
     try {
       moduleFiles.push(...(await collectFiles(dbDir)));
     } catch {
-      const isTsFramework = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono"].includes(body.framework);
-      if (isTsFramework) {
+      if (TS_FRAMEWORKS.includes(body.framework)) {
         try {
           moduleFiles.push(...(await collectFiles(generalDbDir)));
         } catch {
@@ -140,8 +146,7 @@ export async function POST(request: NextRequest) {
     try {
       moduleFiles.push(...(await collectFiles(authDir)));
     } catch {
-      const isTsFramework = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono"].includes(body.framework);
-      if (isTsFramework) {
+      if (TS_FRAMEWORKS.includes(body.framework)) {
         try {
           moduleFiles.push(...(await collectFiles(generalAuthDir)));
         } catch {

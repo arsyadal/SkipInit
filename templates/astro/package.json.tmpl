@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "astro": "^5.0.0"{{#hasPostgres}},
-    "pg": "^8.11.5"{{/hasPostgres}}{{#hasAuth}},
+    "pg": "^8.11.5"{{/hasPostgres}}{{#hasMysql}},
+    "mysql2": "^3.11.0"{{/hasMysql}}{{#hasRedis}},
+    "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}},
+    "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}},
+    "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasAuth}},
     "lucia": "^3.2.0",
     "@lucia-auth/adapter-postgresql": "^3.1.2"{{/hasAuth}}
   },
