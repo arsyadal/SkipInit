@@ -3,9 +3,21 @@ uvicorn>=0.28.0
 {{#hasPostgres}}
 psycopg2-binary>=2.9.9
 {{/hasPostgres}}
+{{#hasMysql}}
+pymysql>=1.1.0
+{{/hasMysql}}
 {{#hasSqlite}}
 # sqlite3 is built into Python stdlib
 {{/hasSqlite}}
 {{#hasMongodb}}
 pymongo>=4.6.2
 {{/hasMongodb}}
+{{#hasRedis}}
+redis>=5.0.1
+{{/hasRedis}}
+{{#hasMssql}}
+pyodbc>=5.1.0
+{{/hasMssql}}
+{{#hasJwt}}
+pyjwt>=2.8.0
+{{/hasJwt}}

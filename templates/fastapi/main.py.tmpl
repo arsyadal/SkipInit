@@ -1,4 +1,57 @@
 from fastapi import FastAPI
+import os
+
+{{#hasPostgres}}
+import psycopg2
+def get_db():
+    return psycopg2.connect(os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/{{projectNameSlug}}"))
+{{/hasPostgres}}
+{{#hasMysql}}
+import pymysql
+def get_db():
+    return pymysql.connect(
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", ""),
+        database="{{projectNameSlug}}"
+    )
+{{/hasMysql}}
+{{#hasSqlite}}
+import sqlite3
+def get_db():
+    return sqlite3.connect("db.sqlite3")
+{{/hasSqlite}}
+{{#hasMongodb}}
+from pymongo import MongoClient
+def get_db():
+    client = MongoClient(os.getenv("DATABASE_URL", "mongodb://localhost:27017/"))
+    return client["{{projectNameSlug}}"]
+{{/hasMongodb}}
+{{#hasRedis}}
+import redis
+def get_redis():
+    return redis.Redis(host=os.getenv("REDIS_HOST", "localhost"), port=6379, decode_responses=True)
+{{/hasRedis}}
+{{#hasMssql}}
+import pyodbc
+def get_db():
+    conn_str = os.getenv("DATABASE_URL", "DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost;DATABASE={{projectNameSlug}};UID=sa;PWD=Password123")
+    return pyodbc.connect(conn_str)
+{{/hasMssql}}
+{{#hasJwt}}
+import jwt
+import datetime
+JWT_SECRET = os.getenv("JWT_SECRET", "change-me-in-production")
+def create_token(data: dict):
+    payload = data.copy()
+    payload["exp"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
+    return jwt.encode(payload, JWT_SECRET, algorithm="HS256")
+def verify_token(token: str):
+    try:
+        return jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+    except jwt.PyJWTError:
+        return None
+{{/hasJwt}}
 
 app = FastAPI(title="{{projectName}}")
 
@@ -10,3 +63,4 @@ def read_root():
         "projectName": "{{projectName}}",
         "database": "{{databaseLabel}}"
     }
+

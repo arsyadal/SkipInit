@@ -1,12 +1,80 @@
 package main
 
 import (
+	"context"
+	"database/sql"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
+
+{{#hasPostgres}}
+	_ "github.com/jackc/pgx/v5/stdlib"
+{{/hasPostgres}}
+{{#hasMysql}}
+	_ "github.com/go-sql-driver/mysql"
+{{/hasMysql}}
+{{#hasSqlite}}
+	_ "github.com/glebarez/go-sqlite"
+{{/hasSqlite}}
+{{#hasMongodb}}
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+{{/hasMongodb}}
+{{#hasRedis}}
+	"github.com/redis/go-redis/v9"
+{{/hasRedis}}
 )
 
 func main() {
+	// Database initialization
+	{{#hasPostgres}}
+	dbUrl := os.Getenv("DATABASE_URL")
+	if dbUrl == "" {
+		dbUrl = "postgres://postgres:password@localhost:5432/{{projectNameSlug}}?sslmode=disable"
+	}
+	_, err := sql.Open("pgx", dbUrl)
+	if err != nil {
+		log.Fatalf("Failed to connect to Postgres: %v", err)
+	}
+	{{/hasPostgres}}
+	{{#hasMysql}}
+	dbUrl := os.Getenv("DATABASE_URL")
+	if dbUrl == "" {
+		dbUrl = "root:password@tcp(localhost:3306)/{{projectNameSlug}}"
+	}
+	_, err := sql.Open("mysql", dbUrl)
+	if err != nil {
+		log.Fatalf("Failed to connect to MySQL: %v", err)
+	}
+	{{/hasMysql}}
+	{{#hasSqlite}}
+	_, err := sql.Open("sqlite", "db.sqlite")
+	if err != nil {
+		log.Fatalf("Failed to connect to SQLite: %v", err)
+	}
+	{{/hasSqlite}}
+	{{#hasMongodb}}
+	dbUrl := os.Getenv("DATABASE_URL")
+	if dbUrl == "" {
+		dbUrl = "mongodb://localhost:27017"
+	}
+	_, err := mongo.Connect(context.Background(), options.Client().ApplyURI(dbUrl))
+	if err != nil {
+		log.Fatalf("Failed to connect to MongoDB: %v", err)
+	}
+	{{/hasMongodb}}
+	{{#hasRedis}}
+	redisUrl := os.Getenv("REDIS_URL")
+	if redisUrl == "" {
+		redisUrl = "redis://localhost:6379"
+	}
+	opt, err := redis.ParseURL(redisUrl)
+	if err == nil {
+		_ = redis.NewClient(opt)
+	}
+	{{/hasRedis}}
+
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
@@ -19,3 +87,4 @@ func main() {
 
 	log.Fatal(app.Listen(":3000"))
 }
+

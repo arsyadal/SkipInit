@@ -8,3 +8,18 @@ axum = "0.7.5"
 tokio = { version = "1.37.0", features = ["full"] }
 serde = { version = "1.0.200", features = ["derive"] }
 serde_json = "1.0.117"
+{{#hasPostgres}}
+sqlx = { version = "0.7.3", features = ["runtime-tokio-native-tls", "postgres"] }
+{{/hasPostgres}}
+{{#hasMysql}}
+sqlx = { version = "0.7.3", features = ["runtime-tokio-native-tls", "mysql"] }
+{{/hasMysql}}
+{{#hasSqlite}}
+sqlx = { version = "0.7.3", features = ["runtime-tokio-native-tls", "sqlite"] }
+{{/hasSqlite}}
+{{#hasMongodb}}
+mongodb = "2.8.2"
+{{/hasMongodb}}
+{{#hasRedis}}
+redis = { version = "0.25.3", features = ["tokio-comp"] }
+{{/hasRedis}}

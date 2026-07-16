@@ -4,4 +4,20 @@ go 1.21
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.2
+{{#hasPostgres}}
+	github.com/jackc/pgx/v5 v5.5.5
+{{/hasPostgres}}
+{{#hasMysql}}
+	github.com/go-sql-driver/mysql v1.8.0
+{{/hasMysql}}
+{{#hasSqlite}}
+	github.com/glebarez/go-sqlite v1.22.0
+{{/hasSqlite}}
+{{#hasMongodb}}
+	go.mongodb.org/mongo-driver v1.14.0
+{{/hasMongodb}}
+{{#hasRedis}}
+	github.com/redis/go-redis/v9 v9.5.1
+{{/hasRedis}}
 )
+
