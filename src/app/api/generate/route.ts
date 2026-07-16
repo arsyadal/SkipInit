@@ -14,9 +14,26 @@ interface GenerateRequest {
 }
 
 const FRAMEWORK_TEMPLATES: Record<string, { dir: string; label: string }> = {
-  nextjs: { dir: "nextjs-base", label: "Next.js" },
-  vite: { dir: "vite-react", label: "Vite + React" },
-  astro: { dir: "astro", label: "Astro" },
+  nextjs:     { dir: "nextjs-base",  label: "Next.js" },
+  vite:       { dir: "vite-react",   label: "Vite + React" },
+  astro:      { dir: "astro",        label: "Astro" },
+  sveltekit:  { dir: "sveltekit",    label: "SvelteKit" },
+  remix:      { dir: "remix",        label: "Remix" },
+  hono:       { dir: "hono",         label: "Hono" },
+  express:    { dir: "express",      label: "Express" },
+  nestjs:     { dir: "nestjs",       label: "NestJS" },
+  nuxt:       { dir: "nuxt",         label: "Nuxt.js" },
+  angular:    { dir: "angular",      label: "Angular" },
+  vue:        { dir: "vue",          label: "Vue.js" },
+  fastapi:    { dir: "fastapi",      label: "FastAPI" },
+  django:     { dir: "django",       label: "Django" },
+  flask:      { dir: "flask",        label: "Flask" },
+  go:         { dir: "go-fiber",     label: "Go (Fiber)" },
+  rust:       { dir: "rust-axum",    label: "Rust (Axum)" },
+  laravel:    { dir: "laravel",      label: "Laravel" },
+  symfony:    { dir: "symfony",      label: "Symfony" },
+  springboot: { dir: "springboot",   label: "Spring Boot" },
+  dotnet:     { dir: "dotnet",       label: ".NET Core" },
 };
 
 interface TemplateFile {
