@@ -1,0 +1,12 @@
+from fastapi import FastAPI
+
+app = FastAPI(title="{{projectName}}")
+
+
+@app.get("/")
+def read_root():
+    return {
+        "message": "Hello from FastAPI. SkipInit template.",
+        "projectName": "{{projectName}}",
+        "database": "{{databaseLabel}}"
+    }

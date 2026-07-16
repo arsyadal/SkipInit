@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <main>
       <h1>{{projectName}}</h1>
-      <p>Built with Next.js{{#hasPostgres}} + PostgreSQL{{/hasPostgres}}{{#hasAuth}} + Lucia Auth{{/hasAuth}}.</p>
+      <p>Built with {{frameworkLabel}}{{#hasPostgres}} + PostgreSQL{{/hasPostgres}}{{#hasAuth}} + Lucia Auth{{/hasAuth}}.</p>
     </main>
   );
 }

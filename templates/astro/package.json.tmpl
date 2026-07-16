@@ -1,0 +1,21 @@
+{
+  "name": "{{projectNameSlug}}",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"{{#hasPostgres}},
+    "pg": "^8.11.5"{{/hasPostgres}}{{#hasAuth}},
+    "lucia": "^3.2.0",
+    "@lucia-auth/adapter-postgresql": "^3.1.2"{{/hasAuth}}
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"{{#hasPostgres}},
+    "@types/pg": "^8.11.6"{{/hasPostgres}}
+  }
+}

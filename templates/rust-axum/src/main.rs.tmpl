@@ -1,0 +1,28 @@
+use axum::{response::Json, routing::get, Router};
+use serde::Serialize;
+
+#[derive(Serialize)]
+struct StatusResponse {
+    message: String,
+    project_name: String,
+    database: String,
+}
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new().route("/", get(handler));
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+        .await
+        .unwrap();
+    println!("Listening on: http://127.0.0.1:3000");
+    axum::serve(listener, app).await.unwrap();
+}
+
+async fn handler() -> Json<StatusResponse> {
+    Json(StatusResponse {
+        message: "Hello from Rust Axum. SkipInit template.".to_string(),
+        project_name: "{{projectName}}".to_string(),
+        database: "{{databaseLabel}}".to_string(),
+    })
+}

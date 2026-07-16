@@ -9,11 +9,15 @@ const TEMPLATES_ROOT = path.join(process.cwd(), "templates");
 interface GenerateRequest {
   projectName: string;
   framework: string;
-  database: "none" | "postgres";
-  auth: "none" | "lucia";
+  database: "none" | "postgres" | "sqlite" | "mongodb";
+  auth: "none" | "lucia" | "jwt";
 }
 
-const SUPPORTED_FRAMEWORKS = new Set(["nextjs"]);
+const FRAMEWORK_TEMPLATES: Record<string, { dir: string; label: string }> = {
+  nextjs: { dir: "nextjs-base", label: "Next.js" },
+  vite: { dir: "vite-react", label: "Vite + React" },
+  astro: { dir: "astro", label: "Astro" },
+};
 
 interface TemplateFile {
   relativePath: string;
@@ -55,7 +59,9 @@ function slugify(name: string): string {
 export async function POST(request: NextRequest) {
   const body = (await request.json()) as GenerateRequest;
 
-  if (!SUPPORTED_FRAMEWORKS.has(body.framework)) {
+  const template = FRAMEWORK_TEMPLATES[body.framework];
+
+  if (!template) {
     return NextResponse.json(
       { error: `Framework "${body.framework}" is not supported yet.` },
       { status: 400 }
@@ -64,11 +70,14 @@ export async function POST(request: NextRequest) {
 
   const projectName = body.projectName?.trim() || "my-app";
   const hasPostgres = body.database === "postgres";
-  const hasAuth = body.auth === "lucia";
+  const hasSqlite = body.database === "sqlite";
+  const hasMongodb = body.database === "mongodb";
+  const hasLucia = body.auth === "lucia";
+  const hasJwt = body.auth === "jwt";
 
-  if (hasAuth && !hasPostgres) {
+  if (hasLucia && !hasPostgres && !hasSqlite) {
     return NextResponse.json(
-      { error: "Lucia Auth requires a database. Please select PostgreSQL." },
+      { error: "Lucia Auth requires PostgreSQL or SQLite database." },
       { status: 400 }
     );
   }
@@ -77,18 +86,49 @@ export async function POST(request: NextRequest) {
     projectName,
     projectNameSlug: slugify(projectName),
     hasPostgres,
-    databaseLabel: hasPostgres ? "PostgreSQL" : "None",
-    hasAuth,
+    hasSqlite,
+    hasMongodb,
+    frameworkLabel: template.label,
+    databaseLabel: body.database === "postgres" ? "PostgreSQL" : body.database === "sqlite" ? "SQLite" : body.database === "mongodb" ? "MongoDB" : "None",
+    hasLucia,
+    hasJwt,
   };
 
-  const baseFiles = await collectFiles(path.join(TEMPLATES_ROOT, "nextjs-base"));
+  const baseFiles = await collectFiles(path.join(TEMPLATES_ROOT, template.dir));
   const moduleFiles: TemplateFile[] = [];
 
-  if (hasPostgres) {
-    moduleFiles.push(...(await collectFiles(path.join(TEMPLATES_ROOT, "modules", "postgres"))));
+  if (body.database !== "none") {
+    const dbDir = path.join(TEMPLATES_ROOT, "modules", `${body.database}-${body.framework}`);
+    const generalDbDir = path.join(TEMPLATES_ROOT, "modules", body.database);
+    try {
+      moduleFiles.push(...(await collectFiles(dbDir)));
+    } catch {
+      const isTsFramework = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono"].includes(body.framework);
+      if (isTsFramework) {
+        try {
+          moduleFiles.push(...(await collectFiles(generalDbDir)));
+        } catch {
+          // No files
+        }
+      }
+    }
   }
-  if (hasAuth) {
-    moduleFiles.push(...(await collectFiles(path.join(TEMPLATES_ROOT, "modules", "lucia-auth"))));
+
+  if (body.auth !== "none") {
+    const authDir = path.join(TEMPLATES_ROOT, "modules", `${body.auth}-${body.framework}`);
+    const generalAuthDir = path.join(TEMPLATES_ROOT, "modules", body.auth);
+    try {
+      moduleFiles.push(...(await collectFiles(authDir)));
+    } catch {
+      const isTsFramework = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono"].includes(body.framework);
+      if (isTsFramework) {
+        try {
+          moduleFiles.push(...(await collectFiles(generalAuthDir)));
+        } catch {
+          // No files
+        }
+      }
+    }
   }
 
   const archive = new ZipArchive({ zlib: { level: 9 } });

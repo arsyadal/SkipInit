@@ -1,0 +1,19 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./style.css";
+
+function App() {
+  return (
+    <main>
+      <p className="eyebrow">{{frameworkLabel}}{{#hasPostgres}} · PostgreSQL{{/hasPostgres}}{{#hasAuth}} · Lucia Auth{{/hasAuth}}</p>
+      <h1>{{projectName}}</h1>
+      <p>Starter cleaned by SkipInit. Spend tokens on features, not setup.</p>
+    </main>
+  );
+}
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);

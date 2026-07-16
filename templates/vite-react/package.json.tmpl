@@ -1,0 +1,27 @@
+{
+  "name": "{{projectNameSlug}}",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^6.0.2",
+    "vite": "^8.0.16",
+    "typescript": "~6.0.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"{{#hasPostgres}},
+    "pg": "^8.11.5"{{/hasPostgres}}{{#hasAuth}},
+    "lucia": "^3.2.0",
+    "@lucia-auth/adapter-postgresql": "^3.1.2"{{/hasAuth}}
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3"{{#hasPostgres}},
+    "@types/pg": "^8.11.6"{{/hasPostgres}}
+  }
+}

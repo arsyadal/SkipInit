@@ -1,0 +1,51 @@
+---
+const stack = "{{frameworkLabel}}{{#hasPostgres}} · PostgreSQL{{/hasPostgres}}{{#hasAuth}} · Lucia Auth{{/hasAuth}}";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{{projectName}}</title>
+  </head>
+  <body>
+    <main>
+      <p>{stack}</p>
+      <h1>{{projectName}}</h1>
+      <span>Starter cleaned by SkipInit. Save tokens for the real build.</span>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    color: #181512;
+    background: #f6f0df;
+    font-family: ui-serif, Georgia, serif;
+  }
+
+  main {
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+    padding: 48px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(48px, 9vw, 120px);
+    line-height: 0.9;
+  }
+
+  p {
+    font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  span {
+    max-width: 520px;
+    font-size: 20px;
+  }
+</style>
