@@ -165,13 +165,18 @@ export default function Home() {
           {/* Project Name */}
           <div>
             <label className="block text-xs uppercase tracking-wider text-neutral-500 mb-2 font-medium">Project Name</label>
-            <input
-              type="text"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
-              placeholder="my-app"
-              className="w-full bg-neutral-950 border border-neutral-800 rounded-md px-3 py-2 text-sm outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-all text-neutral-200"
-            />
+            <div className="relative">
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 stroke-neutral-500" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h6l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+              </svg>
+              <input
+                type="text"
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+                placeholder="my-app"
+                className="w-full bg-neutral-950 border border-neutral-800 rounded-md pl-9 pr-3 py-2 text-sm outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600 transition-all text-neutral-200"
+              />
+            </div>
           </div>
 
           {/* Language tabs */}
