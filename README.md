@@ -6,24 +6,29 @@ SkipInit is a clean, minimal project starter downloader. It provides battle-test
 
 ## Features
 
-- **Step-by-step Filtering**: Instantly filters frameworks by language (JavaScript/TypeScript, Python, Go, Rust).
+- **Step-by-step Filtering**: Instantly filters frameworks by language (JS/TS, Python, Go, Rust, PHP, Java, C#, Ruby, Elixir).
 - **Interactive UI**: Clean, desktop-first, developer-friendly interface.
 - **Dynamic Generator API**: Downloads a custom-tailored ZIP on the fly.
 - **Terminal CLI Installer**: Copy a single command from the web and paste it to automatically download, extract, and run `npm install`.
 
 ## Supported Stacks
 
-### Languages & Frameworks
-- **JavaScript / TypeScript**: Next.js, Vite + React, Astro, SvelteKit, Remix, Hono API
-- **Python**: FastAPI
+### Languages & Frameworks (28)
+- **JavaScript / TypeScript**: Next.js, Vite + React, Astro, SvelteKit, Remix, Hono, Express, Fastify, NestJS, SolidJS, htmx, Nuxt.js, Angular, Vue.js, Deno
+- **Python**: FastAPI, Django, Flask
 - **Go**: Go (Fiber)
 - **Rust**: Rust (Axum)
+- **PHP**: Laravel, Symfony
+- **Java**: Spring Boot, Quarkus
+- **C#**: .NET Core, Blazor
+- **Ruby**: Ruby on Rails
+- **Elixir**: Phoenix
 
 ### Databases
-- PostgreSQL, SQLite, MongoDB, None
+- PostgreSQL, MySQL, SQLite, MongoDB, Redis, MS SQL, None
 
 ### Authentication
-- Lucia Auth, JWT, None
+- Lucia Auth, JWT, NextAuth, None
 
 ## Development
 

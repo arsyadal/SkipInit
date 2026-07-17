@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{projectName}}</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>{{projectName}}</h1>
+      <p>Hello from htmx. SkipInit template.</p>
+      <button hx-get="fragment.html" hx-target="#result" hx-swap="innerHTML">
+        Load fragment
+      </button>
+      <div id="result"></div>
+    </main>
+  </body>
+</html>

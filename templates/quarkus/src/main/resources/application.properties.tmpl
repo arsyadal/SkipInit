@@ -1,0 +1,15 @@
+quarkus.http.port=8080
+{{#hasPostgres}}
+# Add quarkus-jdbc-postgresql + quarkus-hibernate-orm-panache to pom.xml to use this
+quarkus.datasource.db-kind=postgresql
+quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/{{projectNameSlug}}
+quarkus.datasource.username=postgres
+quarkus.datasource.password=password
+{{/hasPostgres}}
+{{#hasMysql}}
+# Add quarkus-jdbc-mysql to pom.xml to use this
+quarkus.datasource.db-kind=mysql
+quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/{{projectNameSlug}}
+quarkus.datasource.username=root
+quarkus.datasource.password=password
+{{/hasMysql}}

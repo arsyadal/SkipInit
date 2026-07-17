@@ -16,6 +16,10 @@ const TEST_CASES = [
   { framework: "hono", database: "mssql", auth: "none" },
   { framework: "express", database: "postgres", auth: "jwt" },
   { framework: "nestjs", database: "mysql", auth: "none" },
+  { framework: "fastify", database: "postgres", auth: "jwt" },
+  { framework: "solid", database: "none", auth: "none" },
+  { framework: "htmx", database: "none", auth: "none" },
+  { framework: "quarkus", database: "postgres", auth: "none" },
   { framework: "nuxt", database: "sqlite", auth: "none" },
   { framework: "angular", database: "none", auth: "none" },
   { framework: "vue", database: "none", auth: "none" },
@@ -35,7 +39,7 @@ const TEST_CASES = [
 ];
 
 async function runTest() {
-  console.log("Starting SkipInit Smoke Tests for all 25 frameworks...");
+  console.log("Starting SkipInit Smoke Tests for all 29 frameworks...");
   
   if (fs.existsSync(TEST_DIR)) {
     fs.rmSync(TEST_DIR, { recursive: true, force: true });
@@ -99,7 +103,7 @@ async function runTest() {
   fs.rmSync(TEST_DIR, { recursive: true, force: true });
 
   if (passed) {
-    console.log("\nAll 25 frameworks generated successfully!");
+    console.log("\nAll 29 frameworks generated successfully!");
     process.exit(0);
   } else {
     console.error("\nSome framework tests failed.");

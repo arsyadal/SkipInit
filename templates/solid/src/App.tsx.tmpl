@@ -1,0 +1,13 @@
+import { createSignal } from 'solid-js'
+
+export default function App() {
+  const [count, setCount] = createSignal(0)
+
+  return (
+    <main style="font-family: system-ui, sans-serif; max-width: 640px; margin: 4rem auto">
+      <h1>{{projectName}}</h1>
+      <p>Hello from SolidJS. SkipInit template.</p>
+      <button onClick={() => setCount((c) => c + 1)}>Count: {count()}</button>
+    </main>
+  )
+}
