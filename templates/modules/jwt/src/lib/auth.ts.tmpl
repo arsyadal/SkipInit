@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const SECRET = process.env.JWT_SECRET || "change-me-in-production";
 
-export function signToken(payload: object, expiresIn = "7d") {
+export function signToken(payload: object, expiresIn: jwt.SignOptions["expiresIn"] = "7d") {
   return jwt.sign(payload, SECRET, { expiresIn });
 }
 
