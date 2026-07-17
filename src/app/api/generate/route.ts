@@ -5,7 +5,10 @@ import Mustache from "mustache";
 import { ZipArchive } from "archiver";
 
 const TEMPLATES_ROOT = path.join(process.cwd(), "templates");
-const TS_FRAMEWORKS = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono", "express", "nestjs", "deno", "nuxt"];
+const TS_FRAMEWORKS = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono", "express", "nestjs", "deno", "nuxt", "fastify"];
+
+const DATABASES = ["none", "postgres", "sqlite", "mongodb", "mysql", "redis", "mssql"] as const;
+const AUTHS = ["none", "lucia", "jwt", "nextauth"] as const;
 
 interface GenerateRequest {
   projectName: string;
@@ -23,6 +26,10 @@ const FRAMEWORK_TEMPLATES: Record<string, { dir: string; label: string }> = {
   hono:       { dir: "hono",         label: "Hono" },
   express:    { dir: "express",      label: "Express" },
   nestjs:     { dir: "nestjs",       label: "NestJS" },
+  fastify:    { dir: "fastify",      label: "Fastify" },
+  solid:      { dir: "solid",        label: "SolidJS" },
+  htmx:       { dir: "htmx",         label: "htmx" },
+  quarkus:    { dir: "quarkus",      label: "Quarkus" },
   nuxt:       { dir: "nuxt",         label: "Nuxt.js" },
   angular:    { dir: "angular",      label: "Angular" },
   vue:        { dir: "vue",          label: "Vue.js" },
@@ -86,6 +93,13 @@ export async function POST(request: NextRequest) {
   if (!template) {
     return NextResponse.json(
       { error: `Framework "${body.framework}" is not supported yet.` },
+      { status: 400 }
+    );
+  }
+
+  if (!DATABASES.includes(body.database) || !AUTHS.includes(body.auth)) {
+    return NextResponse.json(
+      { error: "Invalid database or auth option." },
       { status: 400 }
     );
   }
