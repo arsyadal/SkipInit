@@ -1,0 +1,113 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+{{#hasPostgres}}
+      DATABASE_URL: "postgresql://postgres:password@db:5432/{{projectNameSlug}}?schema=public"
+{{/hasPostgres}}
+{{#hasMysql}}
+      DATABASE_URL: "mysql://root:password@db:3306/{{projectNameSlug}}"
+{{/hasMysql}}
+{{#hasMongodb}}
+      DATABASE_URL: "mongodb://db:27017/{{projectNameSlug}}"
+{{/hasMongodb}}
+{{#hasRedis}}
+      REDIS_URL: "redis://redis:6379"
+{{/hasRedis}}
+{{#hasMssql}}
+      DATABASE_URL: "sqlserver://db:1433;database={{projectNameSlug}};user=sa;password=Password123"
+{{/hasMssql}}
+{{#hasPostgres}}
+    depends_on:
+      - db
+{{/hasPostgres}}
+{{#hasMysql}}
+    depends_on:
+      - db
+{{/hasMysql}}
+{{#hasMongodb}}
+    depends_on:
+      - db
+{{/hasMongodb}}
+{{#hasRedis}}
+    depends_on:
+      - redis
+{{/hasRedis}}
+{{#hasMssql}}
+    depends_on:
+      - db
+{{/hasMssql}}
+{{#hasPostgres}}
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: {{projectNameSlug}}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+{{/hasPostgres}}
+{{#hasMysql}}
+
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: {{projectNameSlug}}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+{{/hasMysql}}
+{{#hasMongodb}}
+
+  db:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - db-data:/data/db
+{{/hasMongodb}}
+{{#hasRedis}}
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+{{/hasRedis}}
+{{#hasMssql}}
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Password123"
+    ports:
+      - "1433:1433"
+{{/hasMssql}}
+{{#hasPostgres}}
+
+volumes:
+  db-data:
+{{/hasPostgres}}
+{{#hasMysql}}
+
+volumes:
+  db-data:
+{{/hasMysql}}
+{{#hasMongodb}}
+
+volumes:
+  db-data:
+{{/hasMongodb}}

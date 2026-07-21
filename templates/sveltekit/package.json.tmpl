@@ -11,23 +11,27 @@
   },
   "dependencies": {
 {{#hasPostgres}}
-    "pg": "^8.11.5"{{#hasJwt}},{{/hasJwt}}{{#hasNextauth}},{{/hasNextauth}}
+    "pg": "^8.11.5"{{#hasJwt}},{{/hasJwt}}{{#hasNextauth}},{{/hasNextauth}}{{#hasBetterAuth}},{{/hasBetterAuth}}
 {{/hasPostgres}}
 {{#hasMysql}}
-    "mysql2": "^3.11.0"{{#hasJwt}},{{/hasJwt}}
+    "mysql2": "^3.11.0"{{#hasJwt}},{{/hasJwt}}{{#hasBetterAuth}},{{/hasBetterAuth}}
 {{/hasMysql}}
 {{#hasRedis}}
-    "redis": "^4.7.0"{{#hasJwt}},{{/hasJwt}}
+    "redis": "^4.7.0"{{#hasJwt}},{{/hasJwt}}{{#hasBetterAuth}},{{/hasBetterAuth}}
 {{/hasRedis}}
 {{#hasMssql}}
-    "mssql": "^11.0.1"{{#hasJwt}},{{/hasJwt}}
+    "mssql": "^11.0.1"{{#hasJwt}},{{/hasJwt}}{{#hasBetterAuth}},{{/hasBetterAuth}}
 {{/hasMssql}}
 {{#hasMongodb}}
-    "mongodb": "^6.9.0"{{#hasJwt}},{{/hasJwt}}
+    "mongodb": "^6.9.0"{{#hasJwt}},{{/hasJwt}}{{#hasBetterAuth}},{{/hasBetterAuth}}
 {{/hasMongodb}}
 {{#hasJwt}}
     "jsonwebtoken": "^9.0.2"
 {{/hasJwt}}
+{{#hasBetterAuth}}
+    "better-auth": "^1.2.7"{{#hasSqlite}},
+    "better-sqlite3": "^11.3.0"{{/hasSqlite}}
+{{/hasBetterAuth}}
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^4.0.0",
@@ -37,6 +41,7 @@
     "svelte-check": "^4.0.0",
     "typescript": "^5.0.0",
     "vite": "^6.0.0"{{#hasJwt}},
-    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}
+    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}{{#hasBetterAuth}}{{#hasSqlite}},
+    "@types/better-sqlite3": "^7.6.11"{{/hasSqlite}}{{/hasBetterAuth}}
   }
 }

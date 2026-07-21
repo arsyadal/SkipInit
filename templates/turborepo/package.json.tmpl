@@ -1,0 +1,15 @@
+{
+  "name": "{{projectNameSlug}}",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5"
+  },
+  "packageManager": "npm@10.9.0"
+}

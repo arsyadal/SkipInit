@@ -21,12 +21,15 @@
     "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasLucia}},
     "lucia": "^3.2.0",
     "@lucia-auth/adapter-postgresql": "^3.1.2"{{/hasLucia}}{{#hasJwt}},
-    "jsonwebtoken": "^9.0.2"{{/hasJwt}}
+    "jsonwebtoken": "^9.0.2"{{/hasJwt}}{{#hasBetterAuth}},
+    "better-auth": "^1.2.7"{{#hasSqlite}},
+    "better-sqlite3": "^11.3.0"{{/hasSqlite}}{{/hasBetterAuth}}
   },
   "devDependencies": {
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3"{{#hasPostgres}},
-    "@types/pg": "^8.11.6"{{/hasPostgres}}
+    "@types/pg": "^8.11.6"{{/hasPostgres}}{{#hasBetterAuth}}{{#hasSqlite}},
+    "@types/better-sqlite3": "^7.6.11"{{/hasSqlite}}{{/hasBetterAuth}}
   }
 }

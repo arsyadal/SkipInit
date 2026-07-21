@@ -14,13 +14,16 @@
     "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}},
     "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}},
     "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasJwt}},
-    "jsonwebtoken": "^9.0.2"{{/hasJwt}}
+    "jsonwebtoken": "^9.0.2"{{/hasJwt}}{{#hasBetterAuth}},
+    "better-auth": "^1.2.7"{{#hasSqlite}},
+    "better-sqlite3": "^11.3.0"{{/hasSqlite}}{{/hasBetterAuth}}
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0"{{#hasPostgres}},
     "@types/pg": "^8.11.6"{{/hasPostgres}}{{#hasJwt}},
-    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}
+    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}{{#hasBetterAuth}}{{#hasSqlite}},
+    "@types/better-sqlite3": "^7.6.11"{{/hasSqlite}}{{/hasBetterAuth}}
   }
 }

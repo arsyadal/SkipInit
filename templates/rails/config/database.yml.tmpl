@@ -6,13 +6,13 @@ default: &default
 development:
   <<: *default
 {{#hasPostgres}}
-  host: localhost
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
   database: {{projectNameSlug}}_development
   username: postgres
   password: <%= ENV["DB_PASSWORD"] %>
 {{/hasPostgres}}
 {{#hasMysql}}
-  host: localhost
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
   database: {{projectNameSlug}}_development
   username: root
   password: <%= ENV["DB_PASSWORD"] %>

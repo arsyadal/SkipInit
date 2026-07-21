@@ -1,0 +1,26 @@
+# {{projectName}}
+
+Generated with SkipInit — Turborepo monorepo template.
+
+## Structure
+
+- `apps/web` — Next.js frontend
+- `apps/api` — Express backend{{#hasPostgres}} (PostgreSQL){{/hasPostgres}}{{#hasMysql}} (MySQL){{/hasMysql}}{{#hasMongodb}} (MongoDB){{/hasMongodb}}{{#hasRedis}} (Redis){{/hasRedis}}{{#hasMssql}} (MS SQL){{/hasMssql}}
+- `packages/ui` — shared React components (`@repo/ui`)
+- `packages/config` — shared TypeScript config
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+- Web: http://localhost:3000
+- API: http://localhost:4000
+{{#hasPostgres}}
+
+## Database
+
+Copy `apps/api/.env.example` to `apps/api/.env` and set `DATABASE_URL`, then use the client in `apps/api/src/lib/db.ts`.
+{{/hasPostgres}}

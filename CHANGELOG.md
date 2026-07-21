@@ -8,6 +8,19 @@ All notable changes to SkipInit are documented here.
 - Django, Flask (Python), Express, NestJS, Nuxt.js, Angular, Vue.js, Laravel, Symfony, Spring Boot, .NET Core templates
 - MySQL, MS SQL, Redis database options
 - NextAuth auth option
+- `CONTRIBUTING.md` and a PR template documenting how to add a new framework/database/auth option
+- Per-framework `version` field in the registry for tracking template content changes
+- Better Auth auth option (generic module for all TS backends + a dedicated Next.js App Router handler), requires PostgreSQL, MySQL, or SQLite
+- Light/dark theme toggle (`next-themes`), defaults to dark, respects system preference, persists choice
+- Optional Docker output (Dockerfile + docker-compose.yml) for one framework per language: Next.js, FastAPI, Go (Fiber), Rust (Axum), Laravel, Spring Boot, .NET Core, Ruby on Rails, Phoenix — toggled via a checkbox that only appears for supported frameworks, or `docker` as a 5th CLI arg
+- Turborepo monorepo template (`apps/web` Next.js + `apps/api` Express + shared `packages/ui`/`packages/config`), with PostgreSQL/MySQL/MongoDB/Redis/MS SQL and JWT auth wired into `apps/api`
+
+### Fixed
+- Rust (Axum) and Phoenix templates bound their dev server to `127.0.0.1`/`{127,0,0,1}` instead of `0.0.0.0`, making them unreachable from outside their own process (and from Docker containers); now bind all interfaces
+- Spring Boot, Rails, and Phoenix hardcoded the database host as `localhost` with no override; now read `DB_HOST`/`${DB_HOST:localhost}` with a `localhost` fallback, matching the pattern already used by the Next.js/FastAPI/Go/Rust templates
+
+### Changed
+- `src/lib/registry.ts` is now the single source of truth for frameworks, databases, and auth providers — `route.ts` and `page.tsx` both read from it instead of keeping their own hardcoded copies in sync by hand
 
 ---
 

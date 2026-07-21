@@ -20,7 +20,9 @@
     "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}},
     "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}},
     "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasJwt}},
-    "jsonwebtoken": "^9.0.2"{{/hasJwt}}
+    "jsonwebtoken": "^9.0.2"{{/hasJwt}}{{#hasBetterAuth}},
+    "better-auth": "^1.2.7"{{#hasSqlite}},
+    "better-sqlite3": "^11.3.0"{{/hasSqlite}}{{/hasBetterAuth}}
   },
   "devDependencies": {
     "@remix-run/dev": "^2.15.0",
@@ -28,6 +30,7 @@
     "@types/react-dom": "^19.0.0",
     "typescript": "^5.0.0",
     "vite": "^5.0.0"{{#hasJwt}},
-    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}
+    "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}{{#hasBetterAuth}}{{#hasSqlite}},
+    "@types/better-sqlite3": "^7.6.11"{{/hasSqlite}}{{/hasBetterAuth}}
   }
 }

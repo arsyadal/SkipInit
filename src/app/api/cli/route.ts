@@ -12,6 +12,8 @@ PROJECT_NAME=\${1:-my-app}
 FRAMEWORK=\${2:-nextjs}
 DATABASE=\${3:-none}
 AUTH=\${4:-none}
+DOCKER=\${5:-false}
+if [ "$5" = "docker" ]; then DOCKER=true; fi
 
 # Slugify to match the folder name inside the generated zip
 SLUG=$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g')
@@ -28,7 +30,7 @@ ZIP_FILE="\${SLUG}_tmp.zip"
 
 echo "→ Downloading template..."
 curl -sSf -X POST -H "Content-Type: application/json" \\
-  -d "{\\"projectName\\":\\"$SLUG\\",\\"framework\\":\\"$FRAMEWORK\\",\\"database\\":\\"$DATABASE\\",\\"auth\\":\\"$AUTH\\"}" \\
+  -d "{\\"projectName\\":\\"$SLUG\\",\\"framework\\":\\"$FRAMEWORK\\",\\"database\\":\\"$DATABASE\\",\\"auth\\":\\"$AUTH\\",\\"docker\\":$DOCKER}" \\
   -o "$ZIP_FILE" "${apiURL}"
 
 echo "→ Extracting files..."

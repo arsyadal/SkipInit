@@ -1,0 +1,11 @@
+import { Button } from "@repo/ui";
+
+export default function Home() {
+  return (
+    <main style={{ padding: 40, fontFamily: "sans-serif" }}>
+      <h1>{{projectName}}</h1>
+      <p>Turborepo monorepo — this web app talks to the api app at http://localhost:4000.</p>
+      <Button>Shared button from @repo/ui</Button>
+    </main>
+  );
+}

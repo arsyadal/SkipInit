@@ -1,0 +1,17 @@
+import { betterAuth } from "better-auth";
+{{#hasPostgres}}
+import { Pool } from "pg";
+{{/hasPostgres}}
+{{#hasMysql}}
+import { createPool } from "mysql2/promise";
+{{/hasMysql}}
+{{#hasSqlite}}
+import Database from "better-sqlite3";
+{{/hasSqlite}}
+
+export const auth = betterAuth({
+  database: {{#hasPostgres}}new Pool({ connectionString: process.env.DATABASE_URL }){{/hasPostgres}}{{#hasMysql}}createPool(process.env.DATABASE_URL || ""){{/hasMysql}}{{#hasSqlite}}new Database("sqlite.db"){{/hasSqlite}},
+  emailAndPassword: {
+    enabled: true,
+  },
+});

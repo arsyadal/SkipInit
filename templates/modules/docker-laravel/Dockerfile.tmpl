@@ -1,0 +1,18 @@
+FROM composer:2 AS composer
+FROM php:8.3-cli
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+{{#hasPostgres}}
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql && rm -rf /var/lib/apt/lists/*
+{{/hasPostgres}}
+{{#hasMysql}}
+RUN docker-php-ext-install pdo_mysql
+{{/hasMysql}}
+{{#hasSqlite}}
+RUN apt-get update && apt-get install -y libsqlite3-dev && docker-php-ext-install pdo_sqlite && rm -rf /var/lib/apt/lists/*
+{{/hasSqlite}}
+WORKDIR /app
+COPY composer.json ./
+RUN composer install --no-interaction --no-scripts --ignore-platform-reqs || true
+COPY . .
+EXPOSE 8000
+CMD ["sh", "-c", "cp -n .env.example .env 2>/dev/null; php artisan key:generate --force; php artisan migrate --force; php artisan serve --host=0.0.0.0 --port=8000"]

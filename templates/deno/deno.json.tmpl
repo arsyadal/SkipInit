@@ -10,6 +10,8 @@
     "redis": "npm:redis"{{/hasRedis}}{{#hasMssql}},
     "mssql": "npm:mssql"{{/hasMssql}}{{#hasMongodb}},
     "mongodb": "npm:mongodb"{{/hasMongodb}}{{#hasJwt}},
-    "jsonwebtoken": "npm:jsonwebtoken"{{/hasJwt}}
+    "jsonwebtoken": "npm:jsonwebtoken"{{/hasJwt}}{{#hasBetterAuth}},
+    "better-auth": "npm:better-auth"{{#hasSqlite}},
+    "better-sqlite3": "npm:better-sqlite3"{{/hasSqlite}}{{/hasBetterAuth}}
   }
 }

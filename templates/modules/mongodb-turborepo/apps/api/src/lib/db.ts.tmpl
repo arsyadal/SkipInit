@@ -1,0 +1,6 @@
+import { MongoClient } from "mongodb";
+
+const client = new MongoClient(process.env.DATABASE_URL as string);
+
+export const db = client.db();
+export const mongoClient = client;

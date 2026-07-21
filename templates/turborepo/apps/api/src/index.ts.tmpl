@@ -1,0 +1,9 @@
+import express from 'express'
+const app = express()
+app.use(express.json())
+
+app.get('/', (_req, res) => {
+  res.json({ message: 'Hello from the api app. SkipInit Turborepo template.', project: '{{projectName}}' })
+})
+
+app.listen(4000, () => console.log('API running on http://localhost:4000'))

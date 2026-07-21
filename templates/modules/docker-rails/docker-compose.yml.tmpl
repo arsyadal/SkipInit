@@ -1,0 +1,60 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+{{#hasPostgres}}
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: password
+{{/hasPostgres}}
+{{#hasMysql}}
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: password
+{{/hasMysql}}
+{{#hasPostgres}}
+    depends_on:
+      - db
+{{/hasPostgres}}
+{{#hasMysql}}
+    depends_on:
+      - db
+{{/hasMysql}}
+{{#hasPostgres}}
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: {{projectNameSlug}}_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+{{/hasPostgres}}
+{{#hasMysql}}
+
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: {{projectNameSlug}}_development
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+{{/hasMysql}}
+{{#hasPostgres}}
+
+volumes:
+  db-data:
+{{/hasPostgres}}
+{{#hasMysql}}
+
+volumes:
+  db-data:
+{{/hasMysql}}

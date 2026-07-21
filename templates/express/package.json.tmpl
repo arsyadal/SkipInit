@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": { "dev": "tsx watch src/index.ts", "build": "tsc" },
-  "dependencies": { "express": "^4.19.2"{{#hasPostgres}}, "pg": "^8.11.5"{{/hasPostgres}}{{#hasMysql}}, "mysql2": "^3.11.0"{{/hasMysql}}{{#hasRedis}}, "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}}, "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}}, "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasJwt}}, "jsonwebtoken": "^9.0.2"{{/hasJwt}} },
-  "devDependencies": { "@types/express": "^4.17.21", "@types/node": "^20", "tsx": "^4.0.0", "typescript": "^5"{{#hasPostgres}}, "@types/pg": "^8.11.6"{{/hasPostgres}}{{#hasJwt}}, "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}} }
+  "dependencies": { "express": "^4.19.2"{{#hasPostgres}}, "pg": "^8.11.5"{{/hasPostgres}}{{#hasMysql}}, "mysql2": "^3.11.0"{{/hasMysql}}{{#hasRedis}}, "redis": "^4.7.0"{{/hasRedis}}{{#hasMssql}}, "mssql": "^11.0.1"{{/hasMssql}}{{#hasMongodb}}, "mongodb": "^6.9.0"{{/hasMongodb}}{{#hasJwt}}, "jsonwebtoken": "^9.0.2"{{/hasJwt}}{{#hasBetterAuth}}, "better-auth": "^1.2.7"{{#hasSqlite}}, "better-sqlite3": "^11.3.0"{{/hasSqlite}}{{/hasBetterAuth}} },
+  "devDependencies": { "@types/express": "^4.17.21", "@types/node": "^20", "tsx": "^4.0.0", "typescript": "^5"{{#hasPostgres}}, "@types/pg": "^8.11.6"{{/hasPostgres}}{{#hasJwt}}, "@types/jsonwebtoken": "^9.0.7"{{/hasJwt}}{{#hasBetterAuth}}{{#hasSqlite}}, "@types/better-sqlite3": "^7.6.11"{{/hasSqlite}}{{/hasBetterAuth}} }
 }

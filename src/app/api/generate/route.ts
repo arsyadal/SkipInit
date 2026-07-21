@@ -3,50 +3,17 @@ import { readdir, readFile, stat } from "fs/promises";
 import path from "path";
 import Mustache from "mustache";
 import { ZipArchive } from "archiver";
+import { DATABASES, AUTHS, getFramework, getDatabaseLabel, getAuth, DatabaseId, AuthId } from "@/lib/registry";
 
 const TEMPLATES_ROOT = path.join(process.cwd(), "templates");
-const TS_FRAMEWORKS = ["nextjs", "vite", "astro", "sveltekit", "remix", "hono", "express", "nestjs", "deno", "nuxt", "fastify"];
-
-const DATABASES = ["none", "postgres", "sqlite", "mongodb", "mysql", "redis", "mssql"] as const;
-const AUTHS = ["none", "lucia", "jwt", "nextauth"] as const;
 
 interface GenerateRequest {
   projectName: string;
   framework: string;
-  database: "none" | "postgres" | "sqlite" | "mongodb" | "mysql" | "redis" | "mssql";
-  auth: "none" | "lucia" | "jwt" | "nextauth";
+  database: DatabaseId;
+  auth: AuthId;
+  docker?: boolean;
 }
-
-const FRAMEWORK_TEMPLATES: Record<string, { dir: string; label: string }> = {
-  nextjs:     { dir: "nextjs-base",  label: "Next.js" },
-  vite:       { dir: "vite-react",   label: "Vite + React" },
-  astro:      { dir: "astro",        label: "Astro" },
-  sveltekit:  { dir: "sveltekit",    label: "SvelteKit" },
-  remix:      { dir: "remix",        label: "Remix" },
-  hono:       { dir: "hono",         label: "Hono" },
-  express:    { dir: "express",      label: "Express" },
-  nestjs:     { dir: "nestjs",       label: "NestJS" },
-  fastify:    { dir: "fastify",      label: "Fastify" },
-  solid:      { dir: "solid",        label: "SolidJS" },
-  htmx:       { dir: "htmx",         label: "htmx" },
-  quarkus:    { dir: "quarkus",      label: "Quarkus" },
-  nuxt:       { dir: "nuxt",         label: "Nuxt.js" },
-  angular:    { dir: "angular",      label: "Angular" },
-  vue:        { dir: "vue",          label: "Vue.js" },
-  fastapi:    { dir: "fastapi",      label: "FastAPI" },
-  django:     { dir: "django",       label: "Django" },
-  flask:      { dir: "flask",        label: "Flask" },
-  go:         { dir: "go-fiber",     label: "Go (Fiber)" },
-  rust:       { dir: "rust-axum",    label: "Rust (Axum)" },
-  laravel:    { dir: "laravel",      label: "Laravel" },
-  symfony:    { dir: "symfony",      label: "Symfony" },
-  springboot: { dir: "springboot",   label: "Spring Boot" },
-  dotnet:     { dir: "dotnet",       label: ".NET Core" },
-  blazor:     { dir: "blazor",       label: "Blazor" },
-  rails:      { dir: "rails",        label: "Ruby on Rails" },
-  deno:       { dir: "deno",         label: "Deno" },
-  phoenix:    { dir: "phoenix",      label: "Phoenix" },
-};
 
 interface TemplateFile {
   relativePath: string;
@@ -88,7 +55,7 @@ function slugify(name: string): string {
 export async function POST(request: NextRequest) {
   const body = (await request.json()) as GenerateRequest;
 
-  const template = FRAMEWORK_TEMPLATES[body.framework];
+  const template = getFramework(body.framework);
 
   if (!template) {
     return NextResponse.json(
@@ -97,7 +64,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!DATABASES.includes(body.database) || !AUTHS.includes(body.auth)) {
+  if (!DATABASES.some((d) => d.id === body.database) || !AUTHS.some((a) => a.id === body.auth)) {
     return NextResponse.json(
       { error: "Invalid database or auth option." },
       { status: 400 }
@@ -114,10 +81,12 @@ export async function POST(request: NextRequest) {
   const hasLucia = body.auth === "lucia";
   const hasJwt = body.auth === "jwt";
   const hasNextauth = body.auth === "nextauth";
+  const hasBetterAuth = body.auth === "betterauth";
 
-  if (hasLucia && !hasPostgres && !hasSqlite) {
+  const authDef = getAuth(body.auth);
+  if (authDef?.requiresDatabase && !authDef.requiresDatabase.includes(body.database)) {
     return NextResponse.json(
-      { error: "Lucia Auth requires PostgreSQL or SQLite database." },
+      { error: `${authDef.label} Auth requires ${authDef.requiresDatabase.map(getDatabaseLabel).join(" or ")} database.` },
       { status: 400 }
     );
   }
@@ -132,10 +101,11 @@ export async function POST(request: NextRequest) {
     hasRedis,
     hasMssql,
     frameworkLabel: template.label,
-    databaseLabel: body.database === "postgres" ? "PostgreSQL" : body.database === "sqlite" ? "SQLite" : body.database === "mongodb" ? "MongoDB" : body.database === "mysql" ? "MySQL" : body.database === "redis" ? "Redis" : body.database === "mssql" ? "MS SQL" : "None",
+    databaseLabel: getDatabaseLabel(body.database),
     hasLucia,
     hasJwt,
     hasNextauth,
+    hasBetterAuth,
   };
 
   const baseFiles = await collectFiles(path.join(TEMPLATES_ROOT, template.dir));
@@ -147,7 +117,7 @@ export async function POST(request: NextRequest) {
     try {
       moduleFiles.push(...(await collectFiles(dbDir)));
     } catch {
-      if (TS_FRAMEWORKS.includes(body.framework)) {
+      if (template.supportsGenericModules) {
         try {
           moduleFiles.push(...(await collectFiles(generalDbDir)));
         } catch {
@@ -163,13 +133,22 @@ export async function POST(request: NextRequest) {
     try {
       moduleFiles.push(...(await collectFiles(authDir)));
     } catch {
-      if (TS_FRAMEWORKS.includes(body.framework)) {
+      if (template.supportsGenericModules) {
         try {
           moduleFiles.push(...(await collectFiles(generalAuthDir)));
         } catch {
           // No files
         }
       }
+    }
+  }
+
+  if (body.docker && template.dockerSupported) {
+    const dockerDir = path.join(TEMPLATES_ROOT, "modules", `docker-${body.framework}`);
+    try {
+      moduleFiles.push(...(await collectFiles(dockerDir)));
+    } catch {
+      // No files
     }
   }
 

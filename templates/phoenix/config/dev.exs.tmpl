@@ -1,14 +1,14 @@
 import Config
 
 config :{{projectNameSlug}}, AppWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {0, 0, 0, 0}, port: 4000],
   secret_key_base: "CHANGE_ME_generate_with_mix_phx_gen_secret"
 
 {{#hasPostgres}}
 config :{{projectNameSlug}}, App.Repo,
   username: "postgres",
   password: "",
-  hostname: "localhost",
+  hostname: System.get_env("DB_HOST", "localhost"),
   database: "{{projectNameSlug}}_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,

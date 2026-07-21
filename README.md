@@ -13,8 +13,8 @@ SkipInit is a clean, minimal project starter downloader. It provides battle-test
 
 ## Supported Stacks
 
-### Languages & Frameworks (28)
-- **JavaScript / TypeScript**: Next.js, Vite + React, Astro, SvelteKit, Remix, Hono, Express, Fastify, NestJS, SolidJS, htmx, Nuxt.js, Angular, Vue.js, Deno
+### Languages & Frameworks (29)
+- **JavaScript / TypeScript**: Next.js, Vite + React, Astro, SvelteKit, Remix, Hono, Express, Fastify, NestJS, SolidJS, htmx, Nuxt.js, Angular, Vue.js, Deno, Turborepo (Monorepo)
 - **Python**: FastAPI, Django, Flask
 - **Go**: Go (Fiber)
 - **Rust**: Rust (Axum)
@@ -28,7 +28,10 @@ SkipInit is a clean, minimal project starter downloader. It provides battle-test
 - PostgreSQL, MySQL, SQLite, MongoDB, Redis, MS SQL, None
 
 ### Authentication
-- Lucia Auth, JWT, NextAuth, None
+- Lucia Auth, JWT, NextAuth, Better Auth, None
+
+### Docker
+- Optional Dockerfile + docker-compose.yml, one per language: Next.js, FastAPI, Go (Fiber), Rust (Axum), Laravel, Spring Boot, .NET Core, Ruby on Rails, Phoenix
 
 ## Development
 
